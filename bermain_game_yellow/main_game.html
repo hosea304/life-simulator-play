@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <title>Mini Game</title>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: auto;
+            width: 90vmin;
+            background: #333;
+            color: #fff;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            /* menambahkan posisi relatif pada container */
+            background-color: wheat;
+            border-radius: 10px;
+            max-width: 90vmin;
+            max-height: 90vmin;
+            width: 100%;
+            border: 5px solid #666666;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        #menu,
+        #map {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 100%;
+        }
+
+        #menu {
+            background: wheat;
+            border-radius: 5px;
+        }
+
+        .menu-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #menu-text {
+            color: #333;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 28px;
+            text-align: center;
+            line-height: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 2px #888888;
+        }
+
+        .pixel {
+            width: 10%;
+            padding-bottom: 10%;
+            float: left;
+        }
+
+        .snake-body {
+            background-image: url("Game.gif");
+            background-repeat: no-repeat;
+            background-size: contain;
+            z-index: 5;
+            position: relative;
+        }
+
+        .food {
+            background-image: url("bintang.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .btn {
+            position: absolute;
+            bottom: 0;
+            color: wheat;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            line-height: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 2px #888888;
+            /* menambahkan z-index pada button */
+        }
+    </style>
+
+    <audio src="backsound_game.mp3" loop></audio>
+    <div id="game-board"></div>
+
+    <div class="container" onclick='document.getElementById("txt").focus();'>
+        <div id="menu">
+            <div class="menu-item">
+                <span id="menu-text">Press enter<br>to start the game</span>
+            </div>
+        </div>
+        <div id="map" style="display: none;">
+        </div>
+    </div>
+
+    <a href="../maingame_yellow/Main_Game.html" class="btn btn-secondary btn-sm mb-3">Kembali</a>
+    <input style="opacity:0;width:0;height:0" id="txt" type="text">
+
+    <script>
+        var score = -1;
+        var snakeBody, food, direction, allowedToMove, isPlaying;
+        var map;
+        var speed = 2;
+        var play;
+        var bgMusic = document.getElementsByTagName("audio")[0];
+
+        document.getElementById("txt").addEventListener("keydown", function (event) {
+            if (event.keyCode === 13) {
+                bgMusic.play();
+                startGame();
+            }
+        });
+
+
+        function initializeVariables() {
+            score = -1; // Add this line to reset the score
+            snakeBody = [
+                [0, 0]
+            ];
+            food = 0;
+            direction = "Right";
+            allowedToMove = false;
+            isPlaying = false;
+            ateFood = false; // Initialize the variable
+        }
+
+
+
+        // Creating the map and initializing variables
+        function initializeGameState(mapElementId) {
+            map = document.getElementById(mapElementId);
+            initializeVariables();
+
+            // Generating the map pixels
+            for (var i = 0; i < 100; i++) {
+                var pixel = document.createElement("div");
+                pixel.setAttribute("class", "pixel");
+                map.appendChild(pixel);
+            }
+
+            // Generating the snake body and food
+            map.children[0].classList.add("snake-body");
+            generateFood();
+        }
+
+        function generateFood() {
+            // To prevent generating food over the snake
+            while (map.children[food].classList.contains("snake-body")) {
+                food = Math.floor(Math.random() * 100);
+            }
+            // Placing food on the map
+            map.children[food].classList.add("food");
+            score++; // Increase the score
+            document.getElementById("score").innerText = "Score: " + score; // Update the score on the screen
+        }
+
+
+        function startGame() {
+            if (!isPlaying) {
+                allowedToMove = true;
+                play = setInterval(updatePosition, 1000 / speed);
+                document.getElementById("menu").style.display = "none";
+                document.getElementById("map").style.display = "";
+                isPlaying = true;
+                bgMusic.play(); // play the background music
+            }
+        }
+
+        function pauseGame() {
+            if (isPlaying) {
+                allowedToMove = false;
+                clearInterval(play);
+                document.getElementById("menu-text").innerText =
+                    "PAUSED\nPress ENTER to resume";
+                document.getElementById("menu").style.display = "";
+                document.getElementById("map").style.display = "none";
+                isPlaying = false;
+                bgMusic.pause(); // pause the background music
+            }
+        }
+
+
+        function gameOver() {
+            clearInterval(play);
+            document.getElementById("menu-text").innerText =
+                "Game Over\nYour Score: " +
+                score + // Show the score
+                "\nPress ENTER to restart";
+            document.getElementById("menu").style.display = "";
+            document.getElementById("map").style.display = "none";
+            map.innerText = ""; // Clearing the map
+            initializeGameState(map.id); // Re-generating the map
+        }
+
+        function updatePosition() {
+            var newPosR, newPosC;
+            var head = snakeBody[snakeBody.length - 1];
+
+            switch (direction) {
+                case "Up":
+                    newPosR = head[0] - 1;
+                    newPosC = head[1];
+                    break;
+                case "Down":
+                    newPosR = head[0] + 1;
+                    newPosC = head[1];
+                    break;
+                case "Left":
+                    newPosR = head[0];
+                    newPosC = head[1] - 1;
+                    break;
+                case "Right":
+                    newPosR = head[0];
+                    newPosC = head[1] + 1;
+                    break;
+                default:
+                    break;
+            }
+            // Checking if snake hit the wall
+            if (newPosR < 0 || newPosR > 9 || newPosC < 0 || newPosC > 9) {
+                gameOver();
+            } else {
+                snakeBody.push([newPosR, newPosC]);
+                updateScreen();
+                allowedToMove = true;
+            }
+        }
+
+        function updateScreen() {
+            var tailArray = snakeBody.shift();
+
+            var tail = parseInt(tailArray[0] + "" + tailArray[1]);
+
+            var headArray = snakeBody[snakeBody.length - 1];
+
+            var head = parseInt(headArray[0] + "" + headArray[1]);
+
+            // Checking if the snake bite its body
+            if (map.children[head].classList.contains("snake-body")) {
+                gameOver();
+            } else {
+                // Adds the new head block
+                map.children[head].classList.add("snake-body");
+
+                // Removes the tail block
+                map.children[tail].classList.remove("snake-body");
+
+                // If snake eats the food
+                if (head == food) {
+                    map.children[food].classList.remove("food");
+                    ateFood = true;
+                    // Checking if the snake reached its max size
+                    snakeBody.length == 100 && gameOver();
+                    generateFood();
+                }
+            }
+        }
+
+        // CONTROLS
+
+        document.onkeydown = keyPress;
+
+        function keyPress(e) {
+            e.preventDefault();
+            e = e || window.event;
+
+            // Escape key is pressed
+            e.keyCode == 27 && pauseGame();
+
+            // Enter key is pressed
+            e.keyCode == 13 && startGame();
+            let up = 38;
+            let down = 40;
+            let left = 37;
+            let right = 39;
+
+            if (allowedToMove) {
+                allowedToMove = false;
+                switch (e.keyCode) {
+                    case left:
+                        direction != "Right" && (direction = "Left");
+                        break;
+                    case up:
+                        direction != "Down" && (direction = "Up");
+                        break;
+                    case right:
+                        direction != "Left" && (direction = "Right");
+                        break;
+                    case down:
+                        direction != "Up" && (direction = "Down");
+                        break;
+                    default:
+                        allowedToMove = true;
+                        break;
+                }
+            }
+        }
+
+        // Initiates the game
+
+        initializeGameState("map");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="select_char_style.css" />
+  <title>Character Select</title>
+</head>
+
+<body>
+  <!-- add audio tag here -->
+  <audio autoplay loop>
+    <source src="../audio/6 A.M. Riverside Town (Royalty Free) - 8 Bit Lofi Hip Hop.mp3" type="audio/mpeg">
+  </audio>
+  <div class="slide-container swiper">
+    <div class="slide-content">
+      <div class="card-wrapper swiper-wrapper">
+        <div class="card swiper-slide">
+          <div class="image-content">
+            <span class="overlay" id="bg1"></span>
+            <div class="card-image">
+              <img src="select_character_assets/bg_assetChar/Char1.png" id="gambar1" class="card-img" />
+            </div>
+          </div>
+          <div class="card-content">
+            <h2 class="name">Bejo</h2>
+            <p class="description">
+              Anak yang aktif, dia sangat suka bermain.
+            </p>
+            <button class="button" id="button1">
+              Play With This Character
+            </button>
+          </div>
+        </div>
+
+        <div class="card swiper-slide">
+          <div class="image-content">
+            <span class="overlay" id="bg2"></span>
+            <div class="card-image">
+              <img src="select_character_assets/bg_assetChar/Char2.png" alt="" class="card-img" />
+            </div>
+          </div>
+          <div class="card-content">
+            <h2 class="name">Surti</h2>
+            <p class="description">
+              Anak baik hati dan periang.
+            </p>
+
+            <button class="button" id="button2">
+              Play With This Character
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-button-next swiper-navBtn"></div>
+    <div class="swiper-button-prev swiper-navBtn"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="select_char_animation.js"></script>
+
+</html>

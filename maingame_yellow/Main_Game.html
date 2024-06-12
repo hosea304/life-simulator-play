@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" class="root">
+
+<head>
+    <title>UMN GOTCHA</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <!-- add audio tag here -->
+        <audio autoplay loop>
+            <source src="/maingame_yellow/music1.mp3" type="audio/mpeg">
+        </audio>
+        <div id="character_container" class="d-flex justify-content-center align-items-center"
+            style="height: 100vh; background-color: wheat;">
+            <div class="row" style="width: 100%;">
+                <!-- stats container -->
+                <div class="col-12 my-4">
+                    <div id="stats" class="container p-0"
+                        style="max-width: 55%; border: .25rem solid rgb(148, 51, 34);">
+                        <div class="row align-items-center">
+                            <div id="level_container" class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="d-flex justify-content-lg-start justify-content-center">
+                                    <div id="level" class="d-flex text-center justify-content-center"
+                                        style="width: 120px;">
+                                        <p><b>level</b></p>
+                                        <div id="level_bar"><span id="level_curr">1</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="clock_container" class="col-lg-3 col-md-6 col-xs-12 text-center">
+                                <div id="clock"></div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 justify-content-end">
+                                <div class="d-flex flex-wrap justify-content-around col-md-12 p-0">
+                                    <div id="outline_health" class="outline">
+                                        <img class="stat" src="assets_stats/HealthBar/1.svg" alt="Health" id="health">
+                                        <div id="health_filler"></div>
+                                    </div>
+                                    <div id="outline_energy" class="outline">
+                                        <img class="stat" src="assets_stats/EnergyBar/1.svg" alt="energy" id="energy">
+                                        <div id="energy_filler"></div>
+                                    </div>
+                                    <div id="outline_hunger" class="outline">
+                                        <img class="stat" src="assets_stats/HungerBar/1.svg" alt="Hunger" id="hunger">
+                                        <div id="hunger_filler"></div>
+                                    </div>
+                                    <div id="outline_happy" class="outline">
+                                        <img class="stat" src="assets_stats/HappyBar/1.svg" alt="Happiness" id="happy">
+                                        <div id="happy_filler"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- stats reset button -->
+                    <!-- <button id="reset-button">Reset stats</button> -->
+                </div>
+                <!-- character container -->
+                <div class="col-md-12">
+                    <div class="container " style="max-width: 55%;">
+                        <div id="char_container" class="embed-responsive embed-responsive-16by9 position-relative">
+                            <img src="character_assets/Scene - Yellow Character/(Scene) Lain/Versi gif/BERDIRI.gif"
+                                class="position-absolute" id="gambar"
+                                style="max-width: 100%; max-height: 40%; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 2;">
+                                <div id="bg_videos_container">
+                                    <div id="bg_videos_container">
+                                        <video autoplay loop muted id="bg_vid1" class="embed-responsive-item"
+                                            src="" style="object-fit: cover; z-index: 1;"></video>
+                                        <video autoplay loop muted id="bg_vid2" class="embed-responsive-item"
+                                            src="" style="object-fit: cover; z-index: 1;"></video>
+                                        <video autoplay loop muted id="bg_vid3" class="embed-responsive-item"
+                                            src="" style="object-fit: cover; z-index: 1;"></video>
+                                    </div>
+                                </div>
+                        </div>
+                        <div id="buttons_container" class="mt-2">
+                            <button style="border: none; background-color: rgb(148, 51, 34); color: wheat;" class="btn btn-primary" id="prev_btn">Previous</button>
+                            <button style="border: none; background-color: rgb(148, 51, 34); color: wheat;" class="btn btn-primary" id="next_btn">Next</button>
+                          </div>
+                    </div>
+                </div>
+                <!-- button container -->
+                <div id="button_container" class="col-12 mt-3">
+                    <div class="container p-0" style="max-width: 55%;">
+                        <div class="row d-flex">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center mt-1 mb-1">
+                                <button onclick="changeImage('makan')" class="button" class="button"
+                                    id="makan">Makan</button>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center mt-2 mb-2">
+                                <button onclick="changeImage('tidur')" class="button" class="button" id="tidur">Tidur
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12  text-center mt-2 mb-2">
+                                <button onclick="changeImage('obat')" class="button" class="button"
+                                    id="obat">Obat</button>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center mt-1 mb-1">
+                                <button id="main" class="button">Main</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="main_game.js"></script>
+    <script src="stats_bar_component/stats_behave.js"></script>
+    <script src="stats_bar_component/clock.js"></script>
+    <script src="character_assets/char_animate.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

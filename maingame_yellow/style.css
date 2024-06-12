@@ -1,0 +1,203 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+#stats {
+  height: fit-content;
+  position: relative;
+  border-radius: 50px;
+}
+
+.button {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 3px solid rgb(148, 51, 34);
+  color: rgb(148, 51, 34);
+
+  background-color: rgba(148, 51, 34, 0.342);
+  border-radius: 25px;
+
+  width: 160px;
+  height: 60px;
+}
+
+.button:hover {
+  background-color: rgb(148, 51, 34);
+  color: wheat;
+  transition-duration: 250ms;
+}
+
+#char_container {
+  border: 0.75rem solid rgb(148, 51, 34);
+  aspect-ratio: 15/9;
+  border-radius: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+#bg_vid {
+  position: absolute;
+  object-fit: cover;
+}
+
+/* stats */
+.stat {
+  width: 20px;
+  height: auto;
+  padding-top: 12px;
+}
+
+.outline {
+  border: 2px solid transparent;
+  border-radius: 180px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  margin: 10px 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* health section */
+#outline_health {
+  border-color: #ff2300;
+}
+
+#health {
+  margin-top: 2.5px;
+}
+
+#health_filler {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: #ff220083;
+  left: 50%;
+  border-radius: 40%;
+  top: 0px;
+  animation: flow 15s infinite linear;
+}
+
+/* energy section */
+#outline_energy {
+  border-color: #0050ff;
+}
+
+#energy_filler {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: #0051ff86;
+  left: 50%;
+  border-radius: 40%;
+  top: 0px;
+  animation: flow 17.5s infinite linear;
+}
+
+#energy {
+  position: relative;
+}
+
+/* hunger section */
+#outline_hunger {
+  border-color: #b5783c;
+}
+
+#hunger_filler {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: #b5783c96;
+  left: 50%;
+  border-radius: 40%;
+  top: 0px;
+  animation: flow 18.5s infinite linear;
+}
+
+/* happy section */
+#outline_happy {
+  border-color: #faf028;
+}
+
+#happy_filler {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-color: #faef288c;
+  left: 50%;
+  border-radius: 40%;
+  top: 0px;
+  animation: flow 12.5s infinite linear;
+}
+
+/* flowing animation */
+@keyframes flow {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(360deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(720deg);
+  }
+}
+
+/* level section css */
+#level {
+  margin: 10px 10px;
+  border: 2px solid green;
+  padding: 5px 5px;
+  border-radius: 35px;
+}
+
+#level p {
+  font-size: 18px;
+  color: rgb(148, 51, 34);
+  margin-top: 5px;
+  margin-bottom: auto;
+  padding-left: 12.5px;
+}
+
+#level_bar {
+  border: 7.5px solid green;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border-radius: 180px;
+  background-color: wheat; /* awal level kosong */
+  transition: all 0.5s ease; /* animasi perubahan level */
+}
+
+#level_bar.full {
+  background-color: #32cd32; /* level penuh */
+}
+
+#level_bar.half {
+  background-color: #b5f5b9; /* setengah level */
+}
+
+#level_curr {
+  color: rgb(54, 23, 23);
+  text-shadow: 0.5px 0.5px rgb(0, 0, 0);
+  font-weight: bold;
+  padding: 2px 1px 2px 1px;
+}
+
+#clock {
+  color: rgb(148, 51, 34);
+  font-size: 30px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}

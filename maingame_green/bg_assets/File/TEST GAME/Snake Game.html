@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snake Game</title>
+    <style>
+      canvas {
+        border: 1px solid #000;
+        margin: left 200px;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+      // Variabel yang dibutuhkan
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+      var snake = [];
+      var snakeLength = 5;
+      var direction = "right";
+      var food = {};
+      var score = 0;
+      var snakeImage = new Image();
+      snakeImage.src = "Game.gif";
+
+      // Fungsi untuk menggambar snake
+      function drawSnake() {
+        for (var i = 0; i < snake.length; i++) {
+          var snakePart = snake[i];
+          context.drawImage(snakeImage, snakePart.x, snakePart.y, 70, 50);
+        }
+      }
+    // Fungsi untuk menggambar makanan
+    function drawFood() {
+     var img = new Image();
+    img.src = "bintang.png";
+    context.drawImage(img, food.x, food.y, 70, 50);
+        }
+
+
+      // Fungsi untuk menggerakkan snake
+      function moveSnake() {
+        var head = snake[0];
+        var newHead = {};
+        switch (direction) {
+          case "right":
+            newHead.x = head.x + 20;
+            newHead.y = head.y;
+            break;
+          case "left":
+            newHead.x = head.x - 20;
+            newHead.y = head.y;
+            break;
+          case "up":
+            newHead.x = head.x;
+            newHead.y = head.y - 20;
+            break;
+          case "down":
+            newHead.x = head.x;
+            newHead.y = head.y + 20;
+            break;
+        }
+        snake.unshift(newHead);
+        if (snake.length > snakeLength) {
+          snake.pop();
+        }
+      }
+
+      // Fungsi untuk memeriksa tabrakan dengan dinding
+      function checkWallCollision() {
+        var head = snake[0];
+        if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+          return true;
+        }
+        return false;
+      }
+
+      // Fungsi untuk memeriksa tabrakan dengan tubuh snake
+      function checkBodyCollision() {
+        var head = snake[0];
+        for (var i = 1; i < snake.length; i++) {
+          var snakePart = snake[i];
+          if (head.x === snakePart.x && head.y === snakePart.y) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      // Fungsi untuk memeriksa tabrakan dengan makanan
+      function checkFoodCollision() {
+        var head = snake[0];
+        if (head.x === food.x && head.y === food.y) {
+          snakeLength++;
+          score += 10;
+          generateFood();
+        }
+      }
+
+      // Fungsi untuk menghasilkan makanan secara acak
+      function generateFood() {
+        var x = Math.floor(Math.random() * (canvas.width / 20)) * 20;
+        var y = Math.floor(Math.random() * (canvas.height / 20)) * 20;
+        food = { x: x, y: y };
+      }
+
+     // Fungsi untuk menggambar skor
+function drawScore() {
+context.fillStyle = "black";
+context.font = "20px Arial";
+context.fillText("Score: " + score, 10, 30);
+}
+
+  // Fungsi utama yang akan dijalankan setiap frame
+  function gameLoop() {
+    // Menghapus layar
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Menggambar snake
+    drawSnake();
+
+    // Menggambar makanan
+    drawFood();
+
+    // Menggerakkan snake
+    moveSnake();
+
+    // Memeriksa tabrakan dengan dinding
+    if (checkWallCollision()) {
+      alert("Game Over!");
+      location.reload();
+    }
+
+    // Memeriksa tabrakan dengan tubuh snake
+    if (checkBodyCollision()) {
+      alert("Game Over!");
+      location.reload();
+    }
+
+    // Memeriksa tabrakan dengan makanan
+    checkFoodCollision();
+
+    // Menggambar skor
+    drawScore();
+  }
+
+  // Menginisialisasi snake dan makanan awal
+  function init() {
+    for (var i = snakeLength - 1; i >= 0; i--) {
+      snake.push({ x: i * 20, y: 0 });
+    }
+    generateFood();
+  }
+
+  // Event listener untuk mengubah arah snake
+  document.addEventListener("keydown", function (event) {
+    switch (event.keyCode) {
+      case 37:
+        if (direction !== "right") {
+          direction = "left";
+        }
+        break;
+      case 38:
+        if (direction !== "down") {
+          direction = "up";
+        }
+        break;
+      case 39:
+        if (direction !== "left") {
+          direction = "right";
+        }
+        break;
+      case 40:
+        if (direction !== "up") {
+          direction = "down";
+        }
+        break;
+    }
+  });
+
+  // Memanggil fungsi init dan menjalankan game loop setiap 100ms
+  init();
+  setInterval(gameLoop, 100);
+</script>
+
